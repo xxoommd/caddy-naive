@@ -1,12 +1,12 @@
-:443, tw3.xxoommd.asia
-tls xxoommd@tw3.xxoommd.asia
+:443, nv.example.com
+tls helloworld@nv.example.com
   route {
     forward_proxy {
-    basic_auth xxoommd fuckyouall
+    basic_auth USERNAME PASSWORD
     hide_ip
     hide_via
     probe_resistance
-    upstream socks5://127.0.0.1:40000
+    # upstream socks5://127.0.0.1:40000 容器内warp-svc默认为40000端口
   }
-  respond tw3.xxoommd.asia!
+  respond nv.example.com!
 }

@@ -2,11 +2,6 @@ services:
   caddy:
     image: caddy-naive:cf-latest
     container_name: caddy
-    ports:
-      - '80:80'
-      - '443:443'
-    environment:
-      TZ: 'Asia/Shanghai'
     volumes:
       - $PWD/Caddyfile:/Caddyfile
     network_mode: "host"
