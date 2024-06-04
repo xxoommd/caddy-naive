@@ -6,6 +6,7 @@ tls xxoommd@tw3.xxoommd.asia
     hide_ip
     hide_via
     probe_resistance
+    upstream socks5://127.0.0.1:40000
   }
   respond tw3.xxoommd.asia!
 }
