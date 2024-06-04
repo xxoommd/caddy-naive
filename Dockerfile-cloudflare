@@ -8,10 +8,18 @@ RUN xcaddy build --with github.com/caddyserver/forwardproxy@caddy2=github.com/kl
 
 RUN curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
 
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ bookworm main" | tee /etc/apt/sources.list.d/cloudflare-client.list \
+# 更新包列表并安装依赖
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    lsb-release \
+    iproute2
+
+RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/cloudflare-client.list \
     && apt update -y \
-    && apt install -y cloudflare-warp \
-    && echo y | warp-cli registration new \
+    && apt install -y cloudflare-warp
+
+RUN echo y | warp-cli registration new \
     && warp-cli mode proxy
 
 EXPOSE 80
