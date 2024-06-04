@@ -1,0 +1,11 @@
+:443, tw3.xxoommd.asia
+tls xxoommd@tw3.xxoommd.asia
+  route {
+    forward_proxy {
+    basic_auth xxoommd fuckyouall
+    hide_ip
+    hide_via
+    probe_resistance
+  }
+  respond tw3.xxoommd.asia!
+}
