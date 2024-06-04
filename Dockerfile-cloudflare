@@ -1,0 +1,19 @@
+FROM golang:bookworm
+
+WORKDIR /
+
+RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
+
+RUN xcaddy build --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive
+
+RUN curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/cloudflare-client.list && \
+    apt update -y && \
+    apt install -y cloudflare-warp && \
+    echo y | warp-cli registration new && \
+    warp-cli mode proxy
+
+EXPOSE 80
+EXPOSE 443
+
+ENTRYPOINT ["/caddy"]
