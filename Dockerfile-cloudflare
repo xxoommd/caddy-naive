@@ -8,18 +8,16 @@ RUN xcaddy build --with github.com/caddyserver/forwardproxy@caddy2=github.com/kl
 
 RUN curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
 
-RUN uname -m
-
-RUN dpkg --print-architecture
-
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ bullseye main"
-RUN tee /etc/apt/sources.list.d/cloudflare-client.list
-RUN apt update -y && \
-    apt install -y cloudflare-warp && \
-    echo y | warp-cli registration new && \
-    warp-cli mode proxy
+RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ bullseye main" \
+    && tee /etc/apt/sources.list.d/cloudflare-client.list \
+    && apt update -y \
+    && apt install -y cloudflare-warp \
+    && echo y | warp-cli registration new \
+    && warp-cli mode proxy
 
 EXPOSE 80
 EXPOSE 443
 
-ENTRYPOINT ["/caddy"]
+COPY ./cmd.sh /cmd.sh
+
+ENTRYPOINT ["/cmd.sh"]
