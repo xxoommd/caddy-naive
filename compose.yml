@@ -8,5 +8,5 @@ services:
     environment:
       TZ: 'Asia/Shanghai'
     volumes:
-      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/Caddyfile:/Caddyfile
     network_mode: "host"
