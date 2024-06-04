@@ -19,8 +19,8 @@ RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-
     && apt update -y \
     && apt install -y cloudflare-warp
 
-RUN echo y | warp-cli registration new \
-    && warp-cli mode proxy
+# RUN echo y | warp-cli registration new \
+#     && warp-cli mode proxy
 
 EXPOSE 80
 EXPOSE 443
