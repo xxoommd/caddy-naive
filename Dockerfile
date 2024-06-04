@@ -10,4 +10,4 @@ EXPOSE 80
 EXPOSE 443
 
 ENTRYPOINT ["/caddy"]
-CMD ["run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+CMD ["run", "--config", "/Caddyfile", "--adapter", "caddyfile"]
