@@ -1,6 +1,7 @@
 #!/bin/bash
 
-dbus-daemon --system --fork \
+mkdir -p /run/dbus \
+    && dbus-daemon --system --fork \
     && /usr/bin/warp-svc \
     && echo y | warp-cli registration new \
     && warp-cli mode proxy \
