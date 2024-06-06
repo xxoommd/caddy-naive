@@ -1,7 +1,16 @@
 services:
   caddy:
-    image: caddy-naive:cf-latest
-    container_name: caddy
+    image: caddy-naive:latest
+    env_file: naive-env
+    container_name: naive
+    restart: unless-stopped
     volumes:
-      - $PWD/Caddyfile:/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    network_mode: "host"
+    depends_on:
+      - warp-cli
+  warp-cli:
+    image: warp-cli:latest
+    container_name: warp-cli
+    restart: unless-stopped
     network_mode: "host"
