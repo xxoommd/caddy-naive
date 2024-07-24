@@ -1,35 +1,12 @@
 #!/bin/bash
 
-IMAGE=
-FILE=
-TAG=
+DATE_TAG=`date +"%Y%m%d"`
 
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        --image|-i)
-            IMAGE=$2 && shift 2
-            ;;
-        --cloudflare|-cf)
-            FILE=Dockerfile-cloudflare && shift 1
-            ;;
-        --tag|-t)
-            TAG=$2 && shift 2
-            ;;
-        *)
-            echo "未知参数: $1"
-            exit 1
-            ;;
-    esac
-done
+docker build -f Dockerfile-naive -t xxoommd/caddy-naive:${DATE_TAG} . && docker tag xxoommd/caddy-naive:${DATE_TAG} xxoommd/caddy-naive:latest && \
 
-IMAGE=${IMAGE:-"caddy-naive"}
-FILE=${FILE:-"Dockerfile"}
-TAG=${TAG:-"latest"}
+docker build -f Dockerfile-cloudflare -t xxoommd/cloudflare-warp-cli:${DATE_TAG} . && docker tag xxoommd/cloudflare-warp-cli:${DATE_TAG} xxoommd/cloudflare-warp-cli:latest && \
 
-echo " - IMAGE: $IMAGE"
-echo " - FILE: $FILE"
-echo " - TAG: $TAG"
-
-CMD="docker build -f $FILE -t $IMAGE:$TAG . "
-echo " * Run : $CMD"
-eval $CMD
+docker push xxoommd/caddy-naive:${DATE_TAG} && \
+docker push xxoommd/caddy-naive:latest && \
+docker push xxoommd/cloudflare-warp-cli:${DATE_TAG} && \
+docker push xxoommd/cloudflare-warp-cli:latest

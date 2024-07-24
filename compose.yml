@@ -1,6 +1,6 @@
 services:
   caddy:
-    image: caddy-naive:latest
+    image: xxoommd/caddy-naive:latest
     env_file: naive-env
     container_name: naive
     restart: unless-stopped
@@ -10,7 +10,7 @@ services:
     depends_on:
       - warp-cli
   warp-cli:
-    image: warp-cli:latest
+    image: xxoommd/cloudflare-warp-cli:latest
     container_name: warp-cli
     restart: unless-stopped
     network_mode: "host"
